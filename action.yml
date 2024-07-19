@@ -29,6 +29,14 @@ runs:
       with:
         python-version: '3.10'
 
+    - name: Check inputs
+      shell: bash
+      run: |
+        [[ "${{ inputs.MEMFAULT_ORG_TOKEN }}" ]] || { echo "MEMFAULT_ORG_TOKEN input is empty" ; exit 1; }
+        [[ "${{ inputs.MEMFAULT_ORG_SLUG }}" ]] || { echo "MEMFAULT_ORG_SLUG input is empty" ; exit 1; }
+        [[ "${{ inputs.MEMFAULT_PROJECT_SLUG }}" ]] || { echo "MEMFAULT_PROJECT_SLUG input is empty" ; exit 1; }
+        [[ "${{ inputs.symbol_file }}" ]] || { echo "symbol_file input is empty" ; exit 1; }
+
     - name: Install Dependencies
       shell: bash
       run: pip install memfault-cli==${{ inputs.memfault_cli_version }}
