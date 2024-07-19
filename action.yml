@@ -1,0 +1,43 @@
+name: 'Memfault Upload Symbol Files Action'
+
+description: 'Upload symbol files to Memfault'
+
+inputs:
+  MEMFAULT_ORG_TOKEN:
+    description: 'Organization Auth Token. Generate one at https://app.memfault.com/organizations/-/settings/auth-tokens'
+    required: true
+  MEMFAULT_ORG_SLUG:
+    description: 'Memfault Org Slug'
+    required: true
+  MEMFAULT_PROJECT_SLUG:
+    description: 'Memfault Project Slug'
+    required: true
+
+  symbol_file:
+    description: 'Path to the symbol file'
+    required: true
+  memfault_cli_version:
+    description: 'Memfault CLI Version'
+    required: true
+    default: "1.0.11"
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Install Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+
+    - name: Install Dependencies
+      shell: bash
+      run: pip install memfault-cli==${{ inputs.memfault_cli_version }}
+
+    - name: Upload the symbol file
+      shell: bash
+      run: |
+        memfault \
+          --org-token ${{ inputs.MEMFAULT_ORG_TOKEN }} \
+          --org ${{ inputs.MEMFAULT_ORG_SLUG }} \
+          --project ${{ inputs.MEMFAULT_PROJECT_SLUG }} \
+          upload-mcu-symbols ${{ inputs.symbol_file }}
