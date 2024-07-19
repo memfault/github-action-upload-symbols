@@ -2,6 +2,18 @@
 
 This action uploads a symbol file to Memfault's symbol file service.
 
+## Usage
+
+```yaml
+      - name: Upload symbol file to Memfault
+        uses: memfault/github-action-upload-symbols@v1
+        with:
+          MEMFAULT_ORG_TOKEN: ${{ secrets.MEMFAULT_ORG_TOKEN }}
+          MEMFAULT_ORG_SLUG: ${{ secrets.MEMFAULT_ORG_SLUG }}
+          MEMFAULT_PROJECT_SLUG: ${{ secrets.MEMFAULT_PROJECT_SLUG }}
+          symbol_file: symbols.elf
+```
+
 ## Inputs
 
 > [!TIP]
